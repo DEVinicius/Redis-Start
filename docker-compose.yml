@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: cache
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: cache
+    container_name: cache-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - cache
+
+  nginx:
+    image: nginx:alpine
+    container_name: cache-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - cache
+
+networks:
+  cache:
+    driver: bridge
