@@ -24,7 +24,7 @@ class FakeEmployeeRepository implements IEmployeeRepository {
 
         foreach ($this->employees as $employee) {
             if($employee->userId == $userId) {
-                array_push($employees);
+                array_push($employees, $employee);
             }
         }
 
